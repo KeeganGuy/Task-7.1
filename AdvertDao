@@ -1,0 +1,23 @@
+package com.example.lostfound;
+
+import androidx.room.Dao;
+import androidx.room.Delete;
+import androidx.room.Insert;
+import androidx.room.Query;
+
+import java.util.List;
+
+@Dao
+public interface AdvertDao {
+    @Insert
+    void insert(Advert advert);
+
+    @Delete
+    void delete(Advert advert);
+
+    @Query("SELECT * FROM Advert")
+    List<Advert> getAll();
+
+    @Query("SELECT * FROM Advert WHERE id = :id LIMIT 1")
+    Advert getById(int id);
+}
