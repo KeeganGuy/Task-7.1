@@ -1,0 +1,46 @@
+package com.example.lostfound;
+
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import androidx.appcompat.app.AppCompatActivity;
+import com.example.lostfound.Advert;
+import com.example.lostfound.AdvertDatabase;
+import com.example.lostfound.R;
+import java.util.List;
+import android.content.Intent;
+
+public class NewAdvertActivity extends AppCompatActivity {
+    RadioGroup radioGroup;
+    EditText name, phone, description, date, location;
+    Button btnSave;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_new_advert);
+
+        radioGroup = findViewById(R.id.radioGroup);
+        name = findViewById(R.id.etName);
+        phone = findViewById(R.id.etPhone);
+        description = findViewById(R.id.etDescription);
+        date = findViewById(R.id.etDate);
+        location = findViewById(R.id.etLocation);
+        btnSave = findViewById(R.id.btnSave);
+
+        btnSave.setOnClickListener(v -> {
+            Advert advert = new Advert();
+            advert.postType = ((RadioButton) findViewById(radioGroup.getCheckedRadioButtonId())).getText().toString();
+            advert.name = name.getText().toString();
+            advert.phone = phone.getText().toString();
+            advert.description = description.getText().toString();
+            advert.date = date.getText().toString();
+            advert.location = location.getText().toString();
+
+            AdvertDatabase.getInstance(this).advertDao().insert(advert);
+            finish();
+        });
+    }
+}
